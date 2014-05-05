@@ -26,3 +26,6 @@ I plan on having VHDL modules for both the sigmoid and back propogation function
 
 ### Prepared to begin work
 I am most of the way through understanding the algorithm. I need a little bit more on back propogation (I have acquired a suitable textbook), but should be good to go.
+
+### Documentation
+Two's complement factions - https://stackoverflow.com/questions/9946183/2s-complement-representation-of-fractions
