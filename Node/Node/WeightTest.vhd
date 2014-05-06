@@ -83,11 +83,15 @@ BEGIN
       -- hold reset state for 100 ns.
       wait for 100 ns;	
 
-		weight <= (others=> '0');
+		weight <= "10000000";
 		activationVal <= (others => '0');
 
       wait for clk_period*10;
-
+		activationVal <= "01100";
+      wait for clk_period*10;
+		activationVal <= "10000";
+		
+		wait for clk_period*10;
 		weight <= "00101100";
 		activationVal <= "01100";
 		

@@ -9,8 +9,8 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
-library UNISIM;
-use UNISIM.VComponents.all;
+--library UNISIM;
+--use UNISIM.VComponents.all;
 
 entity Node is
 	 generic(
@@ -26,6 +26,7 @@ entity Node is
 
 
     Port ( input : in  STD_LOGIC_VECTOR(39 downto 0); -- For 8 total 5 bit inputs
+			  sigInTemp : out STD_LOGIC_VECTOR(7 downto 0);
 			  output : out STD_LOGIC_VECTOR(4 downto 0)
 	 );
 end Node;
@@ -36,19 +37,21 @@ architecture Behavioral of Node is
 	signal sigIn : std_logic_vector(7 downto 0);
 begin
 
-	weightIn0 <= default0 when numActive = 1 else
+	--NOTE: THESE ARE THE RECEIVING WEIGHTS
+
+	weightIn0 <= default0 when numActive >= 1 else
 					 (others => '0');
-   weightIn1 <= default1 when numActive = 2 else
+   weightIn1 <= default1 when numActive >= 2 else
 					 (others => '0');
-   weightIn2 <= default2 when numActive = 3 else
+   weightIn2 <= default2 when numActive >= 3 else
 					 (others => '0');
-   weightIn3 <= default3 when numActive = 4 else
+   weightIn3 <= default3 when numActive >= 4 else
 					 (others => '0');
-   weightIn4 <= default4 when numActive = 5 else
+   weightIn4 <= default4 when numActive >= 5 else
 					 (others => '0');
-   weightIn5 <= default5 when numActive = 6 else
+   weightIn5 <= default5 when numActive >= 6 else
 					 (others => '0');
-   weightIn6 <= default6 when numActive = 7 else
+   weightIn6 <= default6 when numActive >= 7 else
 					 (others => '0');
    weightIn7 <= default7 when numActive = 8 else
 					 (others => '0');
@@ -73,7 +76,7 @@ begin
 
 	--Sum the output of each weight multiplier to use as input to the sigmoid
 	sigIn <= std_logic_vector(unsigned(weightOut0) + unsigned(weightOut1) + unsigned(weightOut2) + unsigned(weightOut3) + unsigned(weightOut4) + unsigned(weightOut5) + unsigned(weightOut6) + unsigned(weightOut7));
-
+	sigInTemp <= sigIn;
 	sig : entity work.Sigmoid(behavioral)
 		PORT MAP(input => sigIn, output => output);
 	

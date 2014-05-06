@@ -45,6 +45,7 @@ def main():
         binOut = binOut[2:]
         while(len(binOut) < 5): #adjust output length to 5
             binOut = "0" + binOut
+        print "Out " + str(functOut) + " In " + str(functIn) 
         print "\"" + binOut + "\"" + " when input = \"" + binIn + "\" else"
         input += 0.0625
 
