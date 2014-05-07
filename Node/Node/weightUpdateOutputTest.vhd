@@ -18,12 +18,10 @@ ARCHITECTURE behavior OF weightUpdateOutputTest IS
     PORT(
          currWeight : IN  std_logic_vector(7 downto 0);
          learnRate : IN  std_logic_vector(7 downto 0);
+         deltaK : IN  std_logic_vector(7 downto 0);
          inputActVal : IN  std_logic_vector(7 downto 0);
-         outErr : IN  std_logic_vector(7 downto 0);
-         internActVal : IN  std_logic_vector(7 downto 0);
          weightUpdateTest : OUT  std_logic_vector(7 downto 0);
          leftProd : OUT  std_logic_vector(7 downto 0);
-         rightProd : OUT  std_logic_vector(7 downto 0);
          newWeight : OUT  std_logic_vector(7 downto 0)
         );
     END COMPONENT;
@@ -32,17 +30,13 @@ ARCHITECTURE behavior OF weightUpdateOutputTest IS
    --Inputs
    signal currWeight : std_logic_vector(7 downto 0) := (others => '0');
    signal learnRate : std_logic_vector(7 downto 0) := (others => '0');
+   signal deltaK : std_logic_vector(7 downto 0) := (others => '0');
    signal inputActVal : std_logic_vector(7 downto 0) := (others => '0');
-   signal outErr : std_logic_vector(7 downto 0) := (others => '0');
-   signal internActVal : std_logic_vector(7 downto 0) := (others => '0');
 
  	--Outputs
    signal weightUpdateTest : std_logic_vector(7 downto 0);
    signal leftProd : std_logic_vector(7 downto 0);
-   signal rightProd : std_logic_vector(7 downto 0);
    signal newWeight : std_logic_vector(7 downto 0);
-   -- No clocks detected in port list. Replace <clock> below with 
-   -- appropriate port name 
  
 	signal clk : std_logic;
    constant clk_period : time := 10 ns;
@@ -53,12 +47,10 @@ BEGIN
    uut: weightUpdateOutput PORT MAP (
           currWeight => currWeight,
           learnRate => learnRate,
+          deltaK => deltaK,
           inputActVal => inputActVal,
-          outErr => outErr,
-          internActVal => internActVal,
           weightUpdateTest => weightUpdateTest,
           leftProd => leftProd,
-          rightProd => rightProd,
           newWeight => newWeight
         );
 
@@ -80,23 +72,20 @@ BEGIN
 
 		currWeight <= "00000000";
 		learnRate <= "00000000";
-		inputActVal <= "00000000";
-		outErr <= "00000000";
-		internActval <= "00000000";
+		deltaK <= "00010000";
+		inputActVal <= "00010000";
       wait for clk_period;
 
 		currWeight <= "01000000";
 		learnRate <= "00000010";
-		inputActVal <= "00001100";
-		outErr <= "11100000";
-		internActval <= "00000010";
+		deltaK <= "00010000";
+		inputActVal <= "00010000";
       wait for clk_period;
 
 		currWeight <= "10110000";
 		learnRate <= "00000010";
-		inputActVal <= "00001100";
-		outErr <= "11100000";
-		internActval <= "00000010";
+		deltaK <= "00010000";
+		inputActVal <= "00010000";
       wait for clk_period;
 
       wait;
