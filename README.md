@@ -29,3 +29,5 @@ I am most of the way through understanding the algorithm. I need a little bit mo
 
 ### Documentation
 Two's complement factions - https://stackoverflow.com/questions/9946183/2s-complement-representation-of-fractions
+https://en.wikipedia.org/wiki/Fixed-point_arithmetic
+http://pages.cs.wisc.edu/~cs354-1/beyond354/int.mult.html

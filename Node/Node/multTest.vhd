@@ -11,14 +11,11 @@ ENTITY multTest IS
 END multTest;
  
 ARCHITECTURE behavior OF multTest IS 
- 
-    -- Component Declaration for the Unit Under Test (UUT)
- 
+  
     COMPONENT multiplier
     PORT(
          in1 : IN  std_logic_vector(7 downto 0);
          in2 : IN  std_logic_vector(7 downto 0);
-   		posIn1Out : out signed(7 downto 0);
          output : OUT  std_logic_vector(7 downto 0)
         );
     END COMPONENT;
@@ -30,7 +27,6 @@ ARCHITECTURE behavior OF multTest IS
 
  	--Outputs
    signal output : std_logic_vector(7 downto 0);
-	signal posIn1Out : signed(7 downto 0);
 	signal clk : std_logic;
    constant clk_period : time := 10 ns;
  
@@ -40,7 +36,6 @@ BEGIN
    uut: multiplier PORT MAP (
           in1 => in1,
           in2 => in2,
-			 posIn1Out => posIn1Out,
           output => output
         );
 

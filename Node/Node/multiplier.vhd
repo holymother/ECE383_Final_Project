@@ -9,7 +9,6 @@ use IEEE.NUMERIC_STD.ALL;
 entity multiplier is
     Port ( in1 : in  STD_LOGIC_VECTOR (7 downto 0);
            in2 : in  STD_LOGIC_VECTOR (7 downto 0);
-			  posIn1Out : out signed(7 downto 0);
            output : out  STD_LOGIC_VECTOR (7 downto 0));
 end multiplier;
 
@@ -18,14 +17,7 @@ architecture Behavioral of multiplier is
 	signal multRes : signed(15 downto 0);
 	signal resScaled : std_logic_vector(7 downto 0);
 	signal tempOut : signed(7 downto 0);
-	
-	signal o0,o1,o2,o3,o4,o5,o6,o7 : signed(7 downto 0);
-	signal sum : signed(7 downto 0);
-	
-	signal upperProd : signed(15 downto 0);
 begin
-
-	posIn1Out <= posIn1;
 
 	posIn1 <= signed(in1) when in1(7) = '0' else
 				 -signed(in1);

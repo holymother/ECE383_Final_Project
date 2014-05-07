@@ -24,7 +24,6 @@ entity Node is
 		default6: std_logic_vector(7 downto 0) := (others => '0');
 		default7: std_logic_vector(7 downto 0) := (others => '0')); --Number of active inputs for this particular node. Since I cannot instantiate a generic based number of internal modules.
 
-
     Port ( input : in  STD_LOGIC_VECTOR(39 downto 0); -- For 8 total 5 bit inputs
 			  sigInTemp : out STD_LOGIC_VECTOR(7 downto 0);
 			  output : out STD_LOGIC_VECTOR(4 downto 0)

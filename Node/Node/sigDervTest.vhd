@@ -4,6 +4,7 @@
 --6 May 2014
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
+USE ieee.numeric_std.ALL;
 
 ENTITY sigDervTest IS
 END sigDervTest;

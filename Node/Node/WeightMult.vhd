@@ -33,7 +33,6 @@ begin
 	output <= std_logic_vector(sum) when weight(7) = '0' else --if weight is positive, leave as is
 				 std_logic_vector(weight) when activationVal = "10000" else
 				 std_logic_vector(-sum);
-	--output <= std_logic_vector(tempOut);
 
 end Behavioral;
 
