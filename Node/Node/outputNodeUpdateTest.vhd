@@ -22,6 +22,7 @@ ARCHITECTURE behavior OF outputNodeUpdateTest IS
     PORT(
          input : IN  std_logic_vector(39 downto 0);
          corrOut : IN  std_logic_vector(4 downto 0);
+   		weightDeltaK : out std_logic_vector(63 downto 0);
          deltaK : OUT  std_logic_vector(7 downto 0);
          newWeight : OUT  std_logic_vector(7 downto 0);
          output : OUT  std_logic_vector(4 downto 0)
@@ -37,6 +38,8 @@ ARCHITECTURE behavior OF outputNodeUpdateTest IS
    signal deltaK : std_logic_vector(7 downto 0);
    signal newWeight : std_logic_vector(7 downto 0);
    signal output : std_logic_vector(4 downto 0);
+	signal weightDeltaK : std_logic_vector(63 downto 0);
+
 	
 	signal clk : std_logic;
    constant clk_period : time := 10 ns;
@@ -54,6 +57,7 @@ BEGIN
           input => "00000000000000000000000000000000000" & input,
           corrOut => corrOut,
           deltaK => deltaK,
+			 weightDeltaK => weightDeltaK,
           newWeight => newWeight,
           output => output
         );

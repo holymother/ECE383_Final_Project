@@ -26,6 +26,7 @@ entity OutputNode is
 
     Port ( input : in  STD_LOGIC_VECTOR(39 downto 0); -- For 8 total 5 bit inputs
 			  corrOut : in STD_LOGIC_VECTOR(4 downto 0);
+			  weightDeltaK : out std_logic_vector(63 downto 0);
 			  deltaK : out std_logic_vector(7 downto 0);
 			  newWeight : out std_logic_vector(7 downto 0); --for testing
 			  output : out STD_LOGIC_VECTOR(4 downto 0)
@@ -60,6 +61,24 @@ begin
 		PORT MAP(in1 => errorK, in2 => extSigDer, output => deltaKTemp);
 
 	deltaK <= deltaKtemp;
+	
+	weightDKMult0 : entity work.multiplier(behavioral)
+		PORT MAP(in1 => deltaKTemp, in2 => weightIn0, output => weightDeltaK(7 downto 0));
+	weightDKMult1 : entity work.multiplier(behavioral)
+		PORT MAP(in1 => deltaKTemp, in2 => weightIn1, output => weightDeltaK(15 downto 8));		
+	weightDKMult2 : entity work.multiplier(behavioral)
+		PORT MAP(in1 => deltaKTemp, in2 => weightIn2, output => weightDeltaK(23 downto 16));		
+	weightDKMult3 : entity work.multiplier(behavioral)
+		PORT MAP(in1 => deltaKTemp, in2 => weightIn3, output => weightDeltaK(31 downto 24));		
+	weightDKMult4 : entity work.multiplier(behavioral)
+		PORT MAP(in1 => deltaKTemp, in2 => weightIn4, output => weightDeltaK(39 downto 32));		
+	weightDKMult5 : entity work.multiplier(behavioral)
+		PORT MAP(in1 => deltaKTemp, in2 => weightIn5, output => weightDeltaK(47 downto 40));		
+	weightDKMult6 : entity work.multiplier(behavioral)
+		PORT MAP(in1 => deltaKTemp, in2 => weightIn6, output => weightDeltaK(55 downto 48));		
+	weightDKMult7 : entity work.multiplier(behavioral)
+		PORT MAP(in1 => deltaKTemp, in2 => weightIn7, output => weightDeltaK(63 downto 56));
+
 	
 	weightUpdateMod0 : entity work.weightUpdateOutput(behavioral)
 		PORT MAP(currWeight => weightIn0,
