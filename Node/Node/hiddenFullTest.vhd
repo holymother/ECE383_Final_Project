@@ -1,4 +1,4 @@
---Test of the synchronous capabilites of the output node
+--Test of the synchronous capabilities of the output node
 --383 Final Project
 --By C2C William Parks
 --8 May 2014
@@ -9,22 +9,20 @@ USE ieee.std_logic_1164.ALL;
 -- arithmetic functions with Signed or Unsigned values
 --USE ieee.numeric_std.ALL;
  
-ENTITY outputFullTest IS
-END outputFullTest;
+ENTITY hiddenFullTest IS
+END hiddenFullTest;
  
-ARCHITECTURE behavior OF outputFullTest IS 
+ARCHITECTURE behavior OF hiddenFullTest IS 
  
     -- Component Declaration for the Unit Under Test (UUT)
  
-    COMPONENT OutputNode
+    COMPONENT HiddenNode
     PORT(
          input : IN  std_logic_vector(39 downto 0);
-         corrOut : IN  std_logic_vector(4 downto 0);
+         weightDeltaKIn : IN  std_logic_vector(63 downto 0);
          update : IN  std_logic;
-         weightDeltaK : OUT  std_logic_vector(63 downto 0);
-         deltaK : OUT  std_logic_vector(7 downto 0);
          newWeight : OUT  std_logic_vector(7 downto 0);
-		testOutWeight : out std_logic_vector(7 downto 0);
+         testOutWeight : OUT  std_logic_vector(7 downto 0);
          output : OUT  std_logic_vector(4 downto 0)
         );
     END COMPONENT;
@@ -32,16 +30,15 @@ ARCHITECTURE behavior OF outputFullTest IS
 
    --Inputs
    signal input : std_logic_vector(4 downto 0) := (others => '0');
-   signal corrOut : std_logic_vector(4 downto 0) := (others => '0');
+   signal weightDeltaKIn : std_logic_vector(7 downto 0) := (others => '0');
    signal update : std_logic := '0';
 
  	--Outputs
-   signal weightDeltaK : std_logic_vector(63 downto 0);
-   signal deltaK : std_logic_vector(7 downto 0);
    signal newWeight : std_logic_vector(7 downto 0);
+   signal testOutWeight : std_logic_vector(7 downto 0);
    signal output : std_logic_vector(4 downto 0);
-	signal testOutWeight : std_logic_vector(7 downto 0);
 	signal clk : std_logic;
+   -- No clocks detected in port list. Replace <clock> below with 
    -- appropriate port name 
  
    constant clk_period : time := 10 ns;
@@ -49,20 +46,18 @@ ARCHITECTURE behavior OF outputFullTest IS
 BEGIN
  
 	-- Instantiate the Unit Under Test (UUT)
-   uut: entity work.OutputNode(behavioral) 
+  uut: entity work.hiddenNode(behavioral) 
 		generic map(
 			numActive => 1,
 			default0 => "00010000",
 			defLearnRate => "00101000"
-		)	
+		)		
 	PORT MAP (
-          input =>  "00000000000000000000000000000000000" & input,
-          corrOut => corrOut,
+          input => "00000000000000000000000000000000000" & input,
+          weightDeltaKIn => "00000000000000000000000000000000000000000000000000000000" & weightDeltaKIn,
           update => update,
-          weightDeltaK => weightDeltaK,
-          deltaK => deltaK,
           newWeight => newWeight,
-			 testOutWeight => testOutWeight,
+          testOutWeight => testOutWeight,
           output => output
         );
 
@@ -81,28 +76,30 @@ BEGIN
    begin		
       -- hold reset state for 100 ns.
       wait for 100 ns;	
-		assert newWeight = "00010000" report "Failure on correct output"; --should not get update here 
+	  input <= "10000";
+	  weightDeltaKIn <= "00000000";
+      wait for clk_period*5;
+	  assert newWeight = "00010000" report "Failure on correct output (Delta K array of 0";
 
-		input <= "00000";
-		corrOut <= "10000";
-		wait for clk_period*5;
-		assert newWeight = "00010000" report "Failure on 0 value for input"; --should not get update here 
+	  weightDeltaKIn <= "00011100";
+	  input <= "00000";
+      wait for clk_period*5;
+	  assert newWeight = "00010000" report "Failure on 0 value for input";
 
+	  input <= "10000";
+      wait for clk_period*5;
+	  assert newWeight = "00101001" report "Failure to raise weight";
+		
 		input <= "10000";
-		corrOut <= "00000";
+		weightDeltaKIn <= "11111000";
       wait for clk_period*5;
-		assert newWeight = "00000110" report "Failure to lower weight";
-		
-		input <= "00100";
-		corrOut <= "10000";
-      wait for clk_period*5;
-		assert newWeight = "00010001" report "Failure to raise weight";
-		
-		update <= '1';
-		wait for clk_period;
-		update <= '0';
-		wait for clk_period;
-		assert testOutWeight = "00010001" report "Failed to transfer weight";
+	  assert newWeight = "00001001" report "Failure to lower weight";
+	  
+	  update <= '1';
+	  wait for clk_period*5;
+	  update <= '0';
+	  wait for clk_period*5;
+	  assert testOutWeight = testOutWeight report "Failure to update";
 
       wait;
    end process;
