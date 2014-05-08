@@ -1,11 +1,8 @@
---Implementation of a single Node, as part of the final project for ECE 383.
---Note: This is just a template and proof of concept for building the HiddenNode and OutputNode
---This one lacks back progatation learning functionality
---C2C William Parks
---5 May 2014
-
---Note: Supports up to 8 inputs, of 5 bits each
---Had to hardcode due to inability to create arbitrary number of weight modules
+--Implementation of a single hidden level node
+--Should have back propagation learning capability
+--383 Final Project
+--By C2C William Parks
+--7 May 2014
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
@@ -14,7 +11,7 @@ use IEEE.NUMERIC_STD.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity Node is
+entity OutputNode is
 	 generic(
 		numActive: natural := 8;
 		default0: std_logic_vector(7 downto 0) := (others => '0');
@@ -27,16 +24,38 @@ entity Node is
 		default7: std_logic_vector(7 downto 0) := (others => '0')); --Number of active inputs for this particular node. Since I cannot instantiate a generic based number of internal modules.
 
     Port ( input : in  STD_LOGIC_VECTOR(39 downto 0); -- For 8 total 5 bit inputs
-			  sigInTemp : out STD_LOGIC_VECTOR(7 downto 0);
+			  corrOut : in STD_LOGIC_VECTOR(4 downto 0);
+			  deltaK : out std_logic_vector(7 downto 0);
 			  output : out STD_LOGIC_VECTOR(4 downto 0)
 	 );
-end Node;
+end OutputNode;
 
-architecture Behavioral of Node is
+architecture Behavioral of OutputNode is
+	signal errorK : std_logic_vector(7 downto 0);
+	signal extCorrOut, extActOut : std_logic_vector(7 downto 0);
+	signal sigDer : std_logic_vector(4 downto 0);
+	signal extSigDer : std_logic_vector(7 downto 0);
+	signal deltaKTemp : std_logic_vector(7 downto 0);
+
+	signal tempOut : std_logic_vector(4 downto 0);
 	signal weightOut0, weightOut1, weightOut2, weightOut3, weightOut4, weightOut5, weightOut6, weightOut7 : STD_LOGIC_VECTOR(7 downto 0);
 	signal weightIn0, weightIn1, weightIn2, weightIn3, weightIn4, weightIn5, weightIn6, weightIn7 : std_logic_vector(7 downto 0);
 	signal sigIn : std_logic_vector(7 downto 0);
 begin
+
+	extCorrOut <= "000" & corrOut;
+	extActOut <=  "000" & tempOut;
+	errorK <= std_logic_vector(signed(extCorrOut) - signed(extActOut));
+	
+	sigDerMod : entity work.sigDerivative(behavioral)
+		PORT MAP(input => sigIn, output => sigDer);
+
+	extSigDer <= "000" & sigDer;
+
+	deltaKMult : entity work.multiplier(behavioral)
+		PORT MAP(in1 => errorK, in2 => extSigDer, output => deltaKTemp);
+
+	deltaK <= deltaKtemp;
 
 	--NOTE: THESE ARE THE RECEIVING WEIGHTS
 
@@ -77,9 +96,9 @@ begin
 
 	--Sum the output of each weight multiplier to use as input to the sigmoid
 	sigIn <= std_logic_vector(unsigned(weightOut0) + unsigned(weightOut1) + unsigned(weightOut2) + unsigned(weightOut3) + unsigned(weightOut4) + unsigned(weightOut5) + unsigned(weightOut6) + unsigned(weightOut7));
-	sigInTemp <= sigIn;
 	sig : entity work.Sigmoid(behavioral)
-		PORT MAP(input => sigIn, output => output);
+		PORT MAP(input => sigIn, output => tempOut);		
+	output <= tempOut;
 	
 end Behavioral;
 
