@@ -27,7 +27,7 @@ entity OutputNode is
     Port ( input : in  STD_LOGIC_VECTOR(39 downto 0); -- For 8 total 5 bit inputs
 			  corrOut : in STD_LOGIC_VECTOR(4 downto 0);
 			  deltaK : out std_logic_vector(7 downto 0);
-			  newWeight : out std_logic_vector(7 downto 0);
+			  newWeight : out std_logic_vector(7 downto 0); --for testing
 			  output : out STD_LOGIC_VECTOR(4 downto 0)
 	 );
 end OutputNode;
@@ -38,6 +38,8 @@ architecture Behavioral of OutputNode is
 	signal sigDer : std_logic_vector(4 downto 0);
 	signal extSigDer : std_logic_vector(7 downto 0);
 	signal deltaKTemp : std_logic_vector(7 downto 0);
+
+	signal newWeightTemp0, newWeightTemp1, newWeightTemp2, newWeightTemp3, newWeightTemp4, newWeightTemp5, newWeightTemp6, newWeightTemp7 : std_logic_vector(7 downto 0);
 
 	signal tempOut : std_logic_vector(4 downto 0);
 	signal weightOut0, weightOut1, weightOut2, weightOut3, weightOut4, weightOut5, weightOut6, weightOut7 : STD_LOGIC_VECTOR(7 downto 0);
@@ -59,26 +61,65 @@ begin
 
 	deltaK <= deltaKtemp;
 	
-	weightUpdateMod : entity work.weightUpdateOutput(behavioral)
+	weightUpdateMod0 : entity work.weightUpdateOutput(behavioral)
 		PORT MAP(currWeight => weightIn0,
 					learnRate => defLearnRate,
 					prevNodeActiv => input(4 downto 0), 
 					deltaK => deltaKtemp, 
-					newWeight => newWeight);
-	
---	entity weightUpdateOutput is
---    Port ( currWeight : in std_logic_vector(7 downto 0);
---			  learnRate : in std_logic_vector(7 downto 0);
---			  prevNodeActiv : in std_logic_vector(4 downto 0);
---			  deltaK : in std_logic_vector(7 downto 0);
---			  weightUpdateTest : out std_logic_vector(7 downto 0);
---			  leftProd : out std_logic_vector(7 downto 0);
---			  newWeight : out std_logic_vector(7 downto 0));
-	
-	
+					newWeight => newWeightTemp0);
+					
+	weightUpdateMod1 : entity work.weightUpdateOutput(behavioral)
+		PORT MAP(currWeight => weightIn1,
+					learnRate => defLearnRate,
+					prevNodeActiv => input(9 downto 5), 
+					deltaK => deltaKtemp, 
+					newWeight => newWeightTemp1);
+					
+	weightUpdateMod2 : entity work.weightUpdateOutput(behavioral)
+		PORT MAP(currWeight => weightIn2,
+					learnRate => defLearnRate,
+					prevNodeActiv => input(14 downto 10), 
+					deltaK => deltaKtemp, 
+					newWeight => newWeightTemp2);
+					
+	weightUpdateMod3 : entity work.weightUpdateOutput(behavioral)
+		PORT MAP(currWeight => weightIn3,
+					learnRate => defLearnRate,
+					prevNodeActiv => input(19 downto 15), 
+					deltaK => deltaKtemp, 
+					newWeight => newWeightTemp3);
+					
+	weightUpdateMod4 : entity work.weightUpdateOutput(behavioral)
+		PORT MAP(currWeight => weightIn4,
+					learnRate => defLearnRate,
+					prevNodeActiv => input(24 downto 20), 
+					deltaK => deltaKtemp, 
+					newWeight => newWeightTemp4);
+					
+	weightUpdateMod5 : entity work.weightUpdateOutput(behavioral)
+		PORT MAP(currWeight => weightIn5,
+					learnRate => defLearnRate,
+					prevNodeActiv => input(29 downto 25), 
+					deltaK => deltaKtemp, 
+					newWeight => newWeightTemp5);
+					
+	weightUpdateMod6 : entity work.weightUpdateOutput(behavioral)
+		PORT MAP(currWeight => weightIn6,
+					learnRate => defLearnRate,
+					prevNodeActiv => input(34 downto 30), 
+					deltaK => deltaKtemp, 
+					newWeight => newWeightTemp6);
+					
+	weightUpdateMod7 : entity work.weightUpdateOutput(behavioral)
+		PORT MAP(currWeight => weightIn7,
+					learnRate => defLearnRate,
+					prevNodeActiv => input(39 downto 35), 
+					deltaK => deltaKtemp, 
+					newWeight => newWeightTemp7);
+					
+	newWeight <= newWeightTemp0; -- for verification purposes
 
 	--NOTE: THESE ARE THE RECEIVING WEIGHTS
-
 	weightIn0 <= default0 when numActive >= 1 else
 					 (others => '0');
    weightIn1 <= default1 when numActive >= 2 else
