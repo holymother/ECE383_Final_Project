@@ -31,7 +31,7 @@ ARCHITECTURE behavior OF outputFullTest IS
     
 
    --Inputs
-   signal input : std_logic_vector(4 downto 0) := (others => '0');
+   signal input : std_logic_vector(14 downto 0) := (others => '0');
    signal corrOut : std_logic_vector(4 downto 0) := (others => '0');
    signal update : std_logic := '0';
 
@@ -51,12 +51,14 @@ BEGIN
 	-- Instantiate the Unit Under Test (UUT)
    uut: entity work.OutputNode(behavioral) 
 		generic map(
-			numActive => 1,
-			default0 => "00010000",
-			defLearnRate => "00101000"
+			numActive => 3,
+			default0 => "11000000",--"10100000",
+			default1 => "10010000",--"10100000",
+			default2 => "01000000",--"01010110",
+			defLearnRate => "00001000"
 		)	
 	PORT MAP (
-          input =>  "00000000000000000000000000000000000" & input,
+          input =>  "0000000000000000000000000" & input,
           corrOut => corrOut,
           update => update,
           weightDeltaK => weightDeltaK,
@@ -83,27 +85,42 @@ BEGIN
       wait for 100 ns;	
 		assert newWeight = "00010000" report "Failure on correct output"; --should not get update here 
 
-		input <= "00000";
-		corrOut <= "10000";
-		wait for clk_period*5;
-		assert newWeight = "00010000" report "Failure on 0 value for input"; --should not get update here 
+--		input <= "00000";
+--		corrOut <= "10000";
+--		wait for clk_period*5;
+--		assert newWeight = "00010000" report "Failure on 0 value for input"; --should not get update here 
+--
+--		input <= "10000";
+--		corrOut <= "00000";
+--      wait for clk_period*5;
+--		assert newWeight = "00000110" report "Failure to lower weight";
+--		
+--		input <= "00100";
+--		corrOut <= "10000";
+--      wait for clk_period*5;
+--		assert newWeight = "00010001" report "Failure to raise weight";
+--		
+--		update <= '1';
+--		wait for clk_period;
+--		update <= '0';
+--		wait for clk_period;
+--		assert testOutWeight = "00010001" report "Failed to transfer weight";
 
-		input <= "10000";
-		corrOut <= "00000";
-      wait for clk_period*5;
-		assert newWeight = "00000110" report "Failure to lower weight";
-		
-		input <= "00100";
-		corrOut <= "10000";
-      wait for clk_period*5;
-		assert newWeight = "00010001" report "Failure to raise weight";
-		
-		update <= '1';
-		wait for clk_period;
-		update <= '0';
-		wait for clk_period;
-		assert testOutWeight = "00010001" report "Failed to transfer weight";
-
+		for i in 0 to 255 loop
+			input <= "010000011000011";
+			corrOut <= "00000";
+			update <= '1';
+			wait for clk_period;
+			update <= '0';
+			wait for clk_period;
+			
+			input <= "001101100010000";
+			corrOut <= "10000";
+			update <= '1';
+			wait for clk_period;
+			update <= '0';
+			wait for clk_period;
+		end loop;
       wait;
    end process;
 

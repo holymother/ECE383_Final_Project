@@ -17,7 +17,6 @@ entity weightUpdateOutput is
 end weightUpdateOutput;
 
 architecture Behavioral of weightUpdateOutput is
-	signal sigDerOut : std_logic_vector(4 downto 0);
 	signal leftMultTemp, fullProd : std_logic_vector(7 downto 0);
 	signal extPrevNode : std_logic_vector(7 downto 0);
 begin

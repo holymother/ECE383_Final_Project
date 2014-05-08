@@ -65,7 +65,6 @@ BEGIN
       -- hold reset state for 100 ns.
       wait for 100 ns;	
 
-      wait for clk_period*10;
 		input <= "00";
 		wait for clk_period*5;
 		input <= "01";
@@ -73,7 +72,46 @@ BEGIN
 		input <= "10";
 		wait for clk_period*5;
 		input <= "11";
-		wait for clk_period*5;		
+		wait for clk_period*5;
+
+		for i in 0 to 255 loop
+			input <= "00";
+			corrOut <= "00000";
+			update <= '1';
+			wait for clk_period;
+			update <= '0';
+			wait for clk_period;
+			
+			input <= "10";
+			corrOut <= "00000";
+			update <= '1';
+			wait for clk_period;
+			update <= '0';
+			wait for clk_period;
+			
+			input <= "01";
+			corrOut <= "00000";
+			update <= '1';
+			wait for clk_period;
+			update <= '0';
+			wait for clk_period;
+
+			input <= "11";
+			corrOut <= "10000";--"10000";
+			update <= '1';
+			wait for clk_period;
+			update <= '0';
+			wait for clk_period;
+		end loop;
+
+		wait for clk_period*20;
+		input <= "00";
+		wait for clk_period*5;
+		input <= "01";
+		wait for clk_period*5;
+		input <= "10";
+		wait for clk_period*5;
+		input <= "11";
 
       wait;
    end process;

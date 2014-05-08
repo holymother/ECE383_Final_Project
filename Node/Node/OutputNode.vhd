@@ -30,7 +30,7 @@ entity OutputNode is
 			  weightDeltaK : out std_logic_vector(63 downto 0);
 			  deltaK : out std_logic_vector(7 downto 0);
 			  newWeight : out std_logic_vector(7 downto 0); --for testing
-			  testOutWeight : out std_logic_vector(7 downto 0);
+			  testOutWeight : out std_logic_vector(7 downto 0); --for testing
 			  output : out STD_LOGIC_VECTOR(4 downto 0)
 	 );
 end OutputNode;
@@ -74,7 +74,7 @@ begin
 	sigDerMod : entity work.sigDerivative(behavioral)
 		PORT MAP(input => sigIn, output => sigDer);
 
-	extSigDer <= "000" & sigDer;
+	extSigDer <= sigDer & "000"; --left shifted one
 
 	deltaKMult : entity work.multiplier(behavioral)
 		PORT MAP(in1 => errorK, in2 => extSigDer, output => deltaKTemp);

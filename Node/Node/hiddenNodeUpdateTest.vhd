@@ -55,8 +55,6 @@ BEGIN
 		PORT MAP (
           input => "00000000000000000000000000000000000" & input,
           weightDeltaKIn => "00000000000000000000000000000000000000000000000000000000" & weightDeltaKIn,
---          weightDeltaKOut => weightDeltaKOut,
---          deltaK => deltaK,
           newWeight => newWeight,
           output => output
         );
@@ -77,24 +75,24 @@ BEGIN
       -- hold reset state for 100 ns.
       wait for 100 ns;
 				
-		input <= "10000";
-		weightDeltaKIn <= "00000000";
+	  input <= "10000";
+	  weightDeltaKIn <= "00000000";
       wait for clk_period*5;
-		assert newWeight = "00010000" report "Failure on correct output (Delta K array of 0";
+	  assert newWeight = "00010000" report "Failure on correct output (Delta K array of 0";
 
-		weightDeltaKIn <= "00011100";
-		input <= "00000";
+	  weightDeltaKIn <= "00011100";
+	  input <= "00000";
       wait for clk_period*5;
-		assert newWeight = "00010000" report "Failure on 0 value for input";
+	  assert newWeight = "00010000" report "Failure on 0 value for input";
 
-		input <= "10000";
+	  input <= "10000";
       wait for clk_period*5;
-		assert newWeight = "00101001" report "Failure to raise weight";
+	  assert newWeight = "00101001" report "Failure to raise weight";
 		
 		input <= "10000";
 		weightDeltaKIn <= "11111000";
       wait for clk_period*5;
-		assert newWeight = "00001001" report "Failure to lower weight";
+	  assert newWeight = "00001001" report "Failure to lower weight";
       wait;
 		
    end process;
