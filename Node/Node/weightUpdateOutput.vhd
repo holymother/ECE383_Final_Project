@@ -7,9 +7,9 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
 entity weightUpdateOutput is
-    Port ( currWeight : in  std_logic_vector(7 downto 0);
+    Port ( currWeight : in std_logic_vector(7 downto 0);
 			  learnRate : in std_logic_vector(7 downto 0);
-			  inputActVal : in std_logic_vector(7 downto 0);
+			  prevNodeActiv : in std_logic_vector(4 downto 0);
 			  deltaK : in std_logic_vector(7 downto 0);
 			  weightUpdateTest : out std_logic_vector(7 downto 0);
 			  leftProd : out std_logic_vector(7 downto 0);
@@ -19,11 +19,13 @@ end weightUpdateOutput;
 architecture Behavioral of weightUpdateOutput is
 	signal sigDerOut : std_logic_vector(4 downto 0);
 	signal leftMultTemp, fullProd : std_logic_vector(7 downto 0);
+	signal extPrevNode : std_logic_vector(7 downto 0);
 begin
+	extPrevNode <= "000" & prevNodeActiv;
 	multL : entity work.multiplier(behavioral)
 		PORT MAP(in1 => learnRate, in2 => deltaK, output => leftMultTemp);
 	multAll : entity work.multiplier(behavioral)
-		PORT MAP(in1 => leftMultTemp, in2 => inputActVal, output => fullProd);
+		PORT MAP(in1 => leftMultTemp, in2 => extPrevNode, output => fullProd);
 	weightUpdateTest <= fullProd;
 	leftProd <= leftMultTemp;
 	newWeight <= std_logic_vector(signed(fullProd) + signed(currWeight));

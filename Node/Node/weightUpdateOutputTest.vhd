@@ -19,7 +19,7 @@ ARCHITECTURE behavior OF weightUpdateOutputTest IS
          currWeight : IN  std_logic_vector(7 downto 0);
          learnRate : IN  std_logic_vector(7 downto 0);
          deltaK : IN  std_logic_vector(7 downto 0);
-         inputActVal : IN  std_logic_vector(7 downto 0);
+			prevNodeActiv : in std_logic_vector(4 downto 0);
          weightUpdateTest : OUT  std_logic_vector(7 downto 0);
          leftProd : OUT  std_logic_vector(7 downto 0);
          newWeight : OUT  std_logic_vector(7 downto 0)
@@ -31,7 +31,7 @@ ARCHITECTURE behavior OF weightUpdateOutputTest IS
    signal currWeight : std_logic_vector(7 downto 0) := (others => '0');
    signal learnRate : std_logic_vector(7 downto 0) := (others => '0');
    signal deltaK : std_logic_vector(7 downto 0) := (others => '0');
-   signal inputActVal : std_logic_vector(7 downto 0) := (others => '0');
+   signal prevNodeActiv : std_logic_vector(4 downto 0) := (others => '0');
 
  	--Outputs
    signal weightUpdateTest : std_logic_vector(7 downto 0);
@@ -48,7 +48,7 @@ BEGIN
           currWeight => currWeight,
           learnRate => learnRate,
           deltaK => deltaK,
-          inputActVal => inputActVal,
+          prevNodeActiv => prevNodeActiv,
           weightUpdateTest => weightUpdateTest,
           leftProd => leftProd,
           newWeight => newWeight
@@ -73,19 +73,19 @@ BEGIN
 		currWeight <= "00000000";
 		learnRate <= "00000000";
 		deltaK <= "00010000";
-		inputActVal <= "00010000";
+		prevNodeActiv <= "10000";
       wait for clk_period;
 
 		currWeight <= "01000000";
 		learnRate <= "00000010";
 		deltaK <= "00010000";
-		inputActVal <= "00010000";
+		prevNodeActiv <= "10000";
       wait for clk_period;
 
 		currWeight <= "10110000";
 		learnRate <= "00000010";
 		deltaK <= "00010000";
-		inputActVal <= "00010000";
+		prevNodeActiv <= "10000";
       wait for clk_period;
 
       wait;
