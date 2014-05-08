@@ -45,34 +45,7 @@ architecture Behavioral of HiddenNode is
 	signal weightIn0, weightIn1, weightIn2, weightIn3, weightIn4, weightIn5, weightIn6, weightIn7 : std_logic_vector(7 downto 0);
 	signal sigIn : std_logic_vector(7 downto 0);
 
-begin
-
-
---Hidden node does not generate its own deltak
---	extCorrOut <= "000" & corrOut;
---	extActOut <=  "000" & tempOut;
---	errorK <= std_logic_vector(signed(extCorrOut) - signed(extActOut));
---	deltaKMult : entity work.multiplier(behavioral)
---		PORT MAP(in1 => errorK, in2 => extSigDer, output => deltaKTemp);
---	deltaK <= deltaKtemp;
---	weightDKMult0 : entity work.multiplier(behavioral)
---		PORT MAP(in1 => deltaKTemp, in2 => weightIn0, output => weightDeltaKOut(7 downto 0));
---	weightDKMult1 : entity work.multiplier(behavioral)
---		PORT MAP(in1 => deltaKTemp, in2 => weightIn1, output => weightDeltaKOut(15 downto 8));		
---	weightDKMult2 : entity work.multiplier(behavioral)
---		PORT MAP(in1 => deltaKTemp, in2 => weightIn2, output => weightDeltaKOut(23 downto 16));		
---	weightDKMult3 : entity work.multiplier(behavioral)
---		PORT MAP(in1 => deltaKTemp, in2 => weightIn3, output => weightDeltaKOut(31 downto 24));		
---	weightDKMult4 : entity work.multiplier(behavioral)
---		PORT MAP(in1 => deltaKTemp, in2 => weightIn4, output => weightDeltaKOut(39 downto 32));		
---	weightDKMult5 : entity work.multiplier(behavioral)
---		PORT MAP(in1 => deltaKTemp, in2 => weightIn5, output => weightDeltaKOut(47 downto 40));		
---	weightDKMult6 : entity work.multiplier(behavioral)
---		PORT MAP(in1 => deltaKTemp, in2 => weightIn6, output => weightDeltaKOut(55 downto 48));		
---	weightDKMult7 : entity work.multiplier(behavioral)
---		PORT MAP(in1 => deltaKTemp, in2 => weightIn7, output => weightDeltaKOut(63 downto 56));
-	
-	
+begin	
 	sigDerMod : entity work.sigDerivative(behavioral)
 		PORT MAP(input => sigIn, output => sigDer);
 
@@ -85,6 +58,55 @@ begin
 					deltaKArray => weightDeltaKIn,
 					sigIn => sigIn,
 					newWeight => newWeightTemp0);
+	weightUpdateMod1 : entity work.weightUpdateHidden(behavioral)
+		PORT MAP(currWeight => weightIn1,
+					learnRate => defLearnRate,
+					prevNodeActiv => input(9 downto 5),
+					deltaKArray => weightDeltaKIn,
+					sigIn => sigIn,
+					newWeight => newWeightTemp1);
+	weightUpdateMod2 : entity work.weightUpdateHidden(behavioral)
+		PORT MAP(currWeight => weightIn2,
+					learnRate => defLearnRate,
+					prevNodeActiv => input(14 downto 10),
+					deltaKArray => weightDeltaKIn,
+					sigIn => sigIn,
+					newWeight => newWeightTemp2);
+	weightUpdateMod3 : entity work.weightUpdateHidden(behavioral)
+		PORT MAP(currWeight => weightIn3,
+					learnRate => defLearnRate,
+					prevNodeActiv => input(19 downto 15),
+					deltaKArray => weightDeltaKIn,
+					sigIn => sigIn,
+					newWeight => newWeightTemp3);
+	weightUpdateMod4 : entity work.weightUpdateHidden(behavioral)
+		PORT MAP(currWeight => weightIn4,
+					learnRate => defLearnRate,
+					prevNodeActiv => input(24 downto 20),
+					deltaKArray => weightDeltaKIn,
+					sigIn => sigIn,
+					newWeight => newWeightTemp4);
+	weightUpdateMod5 : entity work.weightUpdateHidden(behavioral)
+		PORT MAP(currWeight => weightIn5,
+					learnRate => defLearnRate,
+					prevNodeActiv => input(29 downto 25),
+					deltaKArray => weightDeltaKIn,
+					sigIn => sigIn,
+					newWeight => newWeightTemp5);
+	weightUpdateMod6 : entity work.weightUpdateHidden(behavioral)
+		PORT MAP(currWeight => weightIn6,
+					learnRate => defLearnRate,
+					prevNodeActiv => input(34 downto 30),
+					deltaKArray => weightDeltaKIn,
+					sigIn => sigIn,
+					newWeight => newWeightTemp6);
+	weightUpdateMod7 : entity work.weightUpdateHidden(behavioral)
+		PORT MAP(currWeight => weightIn7,
+					learnRate => defLearnRate,
+					prevNodeActiv => input(39 downto 35),
+					deltaKArray => weightDeltaKIn,
+					sigIn => sigIn,
+					newWeight => newWeightTemp7);
 		
 	newWeight <= newWeightTemp0; -- for verification purposes
 
