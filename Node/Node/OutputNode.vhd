@@ -14,6 +14,7 @@ use IEEE.NUMERIC_STD.ALL;
 entity OutputNode is
 	 generic(
 		numActive: natural := 8;
+		defLearnRate: std_logic_vector(7 downto 0) := "00000001";
 		default0: std_logic_vector(7 downto 0) := (others => '0');
 		default1: std_logic_vector(7 downto 0) := (others => '0');
 		default2: std_logic_vector(7 downto 0) := (others => '0');
@@ -26,6 +27,7 @@ entity OutputNode is
     Port ( input : in  STD_LOGIC_VECTOR(39 downto 0); -- For 8 total 5 bit inputs
 			  corrOut : in STD_LOGIC_VECTOR(4 downto 0);
 			  deltaK : out std_logic_vector(7 downto 0);
+			  newWeight : out std_logic_vector(7 downto 0);
 			  output : out STD_LOGIC_VECTOR(4 downto 0)
 	 );
 end OutputNode;
@@ -56,6 +58,24 @@ begin
 		PORT MAP(in1 => errorK, in2 => extSigDer, output => deltaKTemp);
 
 	deltaK <= deltaKtemp;
+	
+	weightUpdateMod : entity work.weightUpdateOutput(behavioral)
+		PORT MAP(currWeight => weightIn0,
+					learnRate => defLearnRate,
+					prevNodeActiv => input(4 downto 0), 
+					deltaK => deltaKtemp, 
+					newWeight => newWeight);
+	
+--	entity weightUpdateOutput is
+--    Port ( currWeight : in std_logic_vector(7 downto 0);
+--			  learnRate : in std_logic_vector(7 downto 0);
+--			  prevNodeActiv : in std_logic_vector(4 downto 0);
+--			  deltaK : in std_logic_vector(7 downto 0);
+--			  weightUpdateTest : out std_logic_vector(7 downto 0);
+--			  leftProd : out std_logic_vector(7 downto 0);
+--			  newWeight : out std_logic_vector(7 downto 0));
+	
+	
 
 	--NOTE: THESE ARE THE RECEIVING WEIGHTS
 
