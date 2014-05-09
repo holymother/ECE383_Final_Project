@@ -93,17 +93,17 @@ Learning functionality by testing all input combinations, 256 rounds of training
 Training Setup
 
 <p align="center">
-  <img src="Photos/InitialState.PNG" />
+  <img src="photos/initialstate.png" />
 </p>
 Initial State of the Network. Note that the output is clearly incorrect.
 
 <p align="center">
-  <img src="Photos/Training.PNG" />
+  <img src="photos/training.png" />
 </p>
 Learning occuring. This is far more steps than actually needed to train this small a network.
 
 <p align="center">
-  <img src="Photos/Result.PNG" />
+  <img src="photos/result.png" />
 </p>
 End result. Notice that results are very close, but not 100%. This is due to a combination of the low precision of this implementation, and a general trait of neural networks. 
 
