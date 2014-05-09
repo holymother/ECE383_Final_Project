@@ -47,8 +47,8 @@ begin
 	mL : entity work.hiddenNode(behavioral)
 		generic map(
 			numActive => 2,
-			default0 => "00110000", --"01100000",
-			default1 => "10100000", --"10000000",
+			default0 => "01110000", --"01100000",
+			default1 => "10111100", --"10000000",
 			defLearnRate => "00000100"
 		)	
 		PORT MAP(
@@ -62,7 +62,7 @@ begin
 		generic map(
 			numActive => 2,
 			default0 => "10100000", --"10000000",
-			default1 => "00110000", --"01100000",
+			default1 => "00001100", --"01100000",
 			defLearnRate => "00000100"
 		)	
 		PORT MAP(

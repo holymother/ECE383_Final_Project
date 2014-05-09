@@ -83,21 +83,21 @@ BEGIN
 			wait for clk_period;
 			
 			input <= "10";
-			corrOut <= "00000";
+			corrOut <= "10000";
 			update <= '1';
 			wait for clk_period;
 			update <= '0';
 			wait for clk_period;
 			
 			input <= "01";
-			corrOut <= "00000";
+			corrOut <= "10000";
 			update <= '1';
 			wait for clk_period;
 			update <= '0';
 			wait for clk_period;
 
 			input <= "11";
-			corrOut <= "10000";--"10000";
+			corrOut <= "00000";--"10000";
 			update <= '1';
 			wait for clk_period;
 			update <= '0';
