@@ -86,6 +86,27 @@ To test the functionality of the feed forward network, I created test values usi
 This was solved by replacing the input nodes with the direct input (0 or 1 instead of 0.5 or 1).
 #### Learning
 Learning functionality by testing all input combinations, 256 rounds of training (each round has all input combinations), and observing performance on a final test input set. Initially, no weights updated. This was due a combination of low values in the weight calculation multiplying to zero, due to low precision. Increasing these values provided a rough patch.
+#### Learning Example XOR
+<p align="center">
+  <img src="Photos/Training.PNG" />
+</p>
+Training Setup
+
+<p align="center">
+  <img src="Photos/InitialState.PNG" />
+</p>
+Initial State of the Network. Note that the output is clearly incorrect.
+
+<p align="center">
+  <img src="Photos/Training.PNG" />
+</p>
+Learning occuring. This is far more steps than actually needed to train this small a network.
+
+<p align="center">
+  <img src="Photos/Result.PNG" />
+</p>
+End result. Notice that results are very close, but not 100%. This is due to a combination of the low precision of this implementation, and a general trait of neural networks. 
+
 ### YouTube video
 TBA
 
