@@ -108,7 +108,7 @@ Learning occuring. This is far more steps than actually needed to train this sma
 End result. Notice that results are very close, but not 100%. This is due to a combination of the low precision of this implementation, and a general trait of neural networks. 
 
 ### YouTube video
-TBA
+https://www.youtube.com/watch?v=iCa7WTGlRZM
 
 ### Conclusion
 Functionality Achieved: A
